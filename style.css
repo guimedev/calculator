@@ -17,17 +17,38 @@
   transform: translate(-50%, -50%);
 
   border: 2px solid black;
-  padding: 1.6rem;
-  background-color: blueviolet;
+  /* padding: 1.6rem; */
+  /* background-color: blueviolet; */
 
   width: 30rem;
 
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  /* gap: 1.6rem; */
+}
+
+.display {
+  background-color: black;
+}
+
+.operation-preview,
+.value-preview {
+  height: 8rem;
+
+  display: flex;
+  justify-content: end;
+  align-items: end;
+
+  font-size: 2.4rem;
+}
+
+.value-preview {
+  font-size: 4rem;
 }
 
 .buttons {
+  padding: .8rem;
+
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(4, 1fr);
@@ -35,9 +56,33 @@
 }
 
 button {
-  width: 6rem;
-  height: 6rem;
+  width: 6.4rem;
+  height: 6.4rem;
   border-radius: 50%;
+  background-color: #e8e8e8;
+  box-shadow: 0 0 0 .1rem rgba(0, 0, 0, 0.6);
+
   font-size: 2.4rem;
+  /* color: white; */
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #f8f8f8;
+}
+
+button.number {
+  background-color: #f8f8f8;
+}
+
+button.number:hover {
+  background-color: #e8e8e8;
+}
+
+button.equals {
+  background-color: #c87808;
+}
+
+button.equals:hover {
+  background-color: #d88818;
 }
