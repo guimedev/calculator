@@ -3,6 +3,7 @@ const valuePreview = document.querySelector('.value-preview');
 const operationPreview = document.querySelector('.operation-preview');
 
 let numbers = ['0'];
+let value;
 let operator;
 let operand1;
 let operand2;
@@ -184,40 +185,111 @@ function removeDot(arr) {
 buttons.addEventListener('click', (e) => {
   const { 
     localName, 
-    textContent: buttonContent,
+    textContent,
     classList
   } = e.target;
 
   const button = localName.includes('button');
 
-  let [ firstNumber ] = numbers;
-  let value = numbers.join('');
-  const hasComma = value.includes(','); 
-  const hasMinusSign = firstNumber.includes('-'); 
+  const [ firstNumber ] = numbers;
+  
+  const hasComma = numbers.join('').includes(',');
+
+  if (firstNumber) {
+    const hasMinusSign = firstNumber.includes('-');
+  }
+  
+  let lastNumber = numbers[numbers.length -1]; 
 
   if (button) {
     const number = classList.contains('number');
+    const comma = classList.contains('comma');
+    const del = classList.contains('del');
+    const plusMinus = classList.contains('plus-minus');
+    const operators = classList.contains('operators');
+    const plus = classList.contains('plus');
+    const divide = classList.contains('divide');
 
     if (number) {
       if (numbers.length < 15) {
-        numbers.push(buttonContent);
+        numbers.push(textContent)
+      }
+
+      if (firstNumber === zero) {
+        numbers.shift();
+      } 
+      
+      if (!hasComma) {
+        addDot(numbers);
+      }
+    }
+
+    if (comma) {
+      if (!hasComma && numbers.length < 15) {
+        numbers[numbers.length - 1] += ',';
+      }
+    }
+
+    if (plusMinus) {
+      if (firstNumber !== zero && !hasMinusSign) {
+        numbers[0] = '-' + firstNumber;
+      } else {
+        numbers[0] = firstNumber.replace('-', '');
+      }
+    }
+
+    if (del) {
+      if (numbers.length === 1 && !hasComma) {
+        numbers[0] = zero;
+      } else {
+        if (!lastNumber.includes(',')) {
+          numbers.pop();
+        } else {
+          numbers[numbers.length - 1] = lastNumber.replace(',', '');
+        }
 
         if (!hasComma) {
-          if (firstNumber === zero) {
-            numbers.shift();
-          }
-
-          if (hasMinusSign) {
-            firstNumber = firstNumber.replace('-', '');
-            addDot(numbers);
-            firstNumber = '-' + firstNumber;
-          } else {
-            addDot(numbers);
-          }
+          removeDot(numbers);
         }
       }
     }
 
+    value = numbers.join('');
+
     valuePreview.textContent = value;
+
+    value = parseFloat(value.replaceAll('.', '').replace(',', '.'));
+    
+    if (operators) {
+      if (typeof operand1 !== 'number') {
+        operand1 = value;
+      }
+      
+      if (plus) {
+        if (operator && isNumber(value)) {
+          operand1 += value;
+        } else {
+          operator = '+';
+        }
+      }
+
+      if (divide) {
+        if (operator && isNumber(value)) {
+          operand1 /= value;
+        } else {
+          operator = `/`;
+        }
+      }
+
+      operationPreview.textContent = `${operand1} ${operator}`;
+      valuePreview.textContent = operand1;
+      numbers = [];
+    }
   }
 })
+
+
+function isNumber(value) {
+  return isNaN(value) ? false : true;
+}
+
