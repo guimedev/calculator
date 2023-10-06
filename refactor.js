@@ -209,6 +209,7 @@ buttons.addEventListener('click', (e) => {
     const operators = classList.contains('operators');
     const plus = classList.contains('plus');
     const divide = classList.contains('divide');
+    const clear = classList.contains('clear');
 
     if (number) {
       if (numbers.length < 15) {
@@ -261,29 +262,37 @@ buttons.addEventListener('click', (e) => {
     value = parseFloat(value.replaceAll('.', '').replace(',', '.'));
     
     if (operators) {
-      if (typeof operand1 !== 'number') {
+      if (isNaN(operand1)) {
         operand1 = value;
       }
       
       if (plus) {
         if (operator && isNumber(value)) {
           operand1 += value;
-        } else {
-          operator = '+';
-        }
+        } 
+          
+        operator = '+';
       }
 
       if (divide) {
         if (operator && isNumber(value)) {
           operand1 /= value;
-        } else {
-          operator = `/`;
         }
+          
+        operator = `/`;
       }
 
       operationPreview.textContent = `${operand1} ${operator}`;
       valuePreview.textContent = operand1;
       numbers = [];
+    }
+
+    if (clear) {
+      numbers = [ zero ];
+      valuePreview.textContent = zero;
+      operand1 = undefined;
+      operator = undefined;
+      operationPreview.textContent = '';
     }
   }
 })
@@ -292,4 +301,5 @@ buttons.addEventListener('click', (e) => {
 function isNumber(value) {
   return isNaN(value) ? false : true;
 }
+
 
