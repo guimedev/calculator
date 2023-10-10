@@ -7,6 +7,7 @@ let value;
 let operator;
 let operand1;
 let operand2;
+let equalSign;
 
 valuePreview.textContent = numbers[0];
 
@@ -192,9 +193,7 @@ buttons.addEventListener('click', (e) => {
   } = e.target;
 
   const button = localName.includes('button');
-  
   const hasComma = numbers.join('').includes(',');
-
   const hasMinusSign = numbers[0] && numbers[0].includes('-');
   
   let lastNumber = numbers[numbers.length -1]; 
@@ -207,26 +206,29 @@ buttons.addEventListener('click', (e) => {
     const operators = classList.contains('operators');
     const plus = classList.contains('plus');
     const divide = classList.contains('divide');
+    const times = classList.contains('times');
+    const minus = classList.contains('minus');
     const clear = classList.contains('clear');
+    const cancel = classList.contains('cancel');
     const equals = classList.contains('equals');
 
     if (number) {
-      if (operand2) {
+      if (isNumber(operand2)) {
         numbers = [ '0' ];
         operand2 = undefined;
-        operationPreview.textContent = '';
-      }
-
-      if (numbers.length < 15) {
-        numbers.push(textContent)
+        equalSign = undefined;
       }
 
       if (numbers[0] === '0') {
         numbers.shift();
       } 
-      
-      if (!hasComma) {
-        addDot(numbers);
+
+      if (numbers.length < 15) {
+        numbers.push(textContent);
+
+        if (!hasComma) {
+          addDot(numbers);
+        }
       }
     }
 
@@ -237,7 +239,7 @@ buttons.addEventListener('click', (e) => {
     }
 
     if (plusMinus) {
-      if (numbers[0] === undefined) { // resolver quando equals é clicado e depois number é inserido, sem passar por operators, numbers não é mais resetado, fazendo com que plusMinus funcione.
+      if (numbers[0] === undefined || operationPreview.textContent.includes(equalSign)) { 
         return;
       }
 
@@ -249,7 +251,7 @@ buttons.addEventListener('click', (e) => {
     }
 
     if (del) {
-      if (numbers[0] === undefined) {
+      if (numbers[0] === undefined || equalSign) {
         return;
       }
 
@@ -275,20 +277,38 @@ buttons.addEventListener('click', (e) => {
     value = parseFloat(value.replaceAll('.', '').replace(',', '.'));
     
     if (operators) {
+      operand2 = undefined;
+
       if (isNaN(operand1)) {
         operand1 = value;
       }
       
       if (plus) {
-        if (operator && isNumber(value)) {
+        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
           operand1 += value;
         } 
           
         operator = '+';
       }
 
+      if (minus) {
+        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+          operand1 -= value;
+        } 
+          
+        operator = '-';
+      }
+
+      if (times) {
+        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+          operand1 *= value;
+        } 
+          
+        operator = '*';
+      }
+
       if (divide) {
-        if (operator && isNumber(value)) {
+        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
           operand1 /= value;
         }
           
@@ -296,12 +316,18 @@ buttons.addEventListener('click', (e) => {
       }
 
       operationPreview.textContent = `${operand1} ${operator}`;
+
+      operand1 = operand1.toLocaleString(undefined, { maximumFractionDigits: 15 });
+
       valuePreview.textContent = operand1;
+
+      operand1 = parseFloat(operand1.replaceAll('.', '').replace(',', '.'));
+
       numbers = [];
     }
 
     if (equals) {
-      if (isNaN(operand2)) {
+      if (isNaN(operand2) && isNumber(operand1)) {
         if (isNaN(value)) {
           operand2 = operand1;
         } else {
@@ -310,11 +336,47 @@ buttons.addEventListener('click', (e) => {
       }
 
       if (isNumber(operand2)) {
+        equalSign = '=';
+
         if (operator === '+') {
-          operationPreview.textContent = `${operand1} ${operator} ${operand2} =`;
-          valuePreview.textContent = operand1 += operand2;
+          operationPreview.textContent = `${operand1} ${operator} ${operand2} ${equalSign}`;
+          operand1 += operand2;
         }
+
+        if (operator === '-') {
+          operationPreview.textContent = `${operand1} ${operator} ${operand2} ${equalSign}`;
+          operand1 -= operand2;
+        }
+
+        if (operator === '*') {
+          operationPreview.textContent = `${operand1} ${operator} ${operand2} ${equalSign}`;
+          operand1 *= operand2;
+        }
+
+        if (operator === '/') {
+          operationPreview.textContent = `${operand1} ${operator} ${operand2} ${equalSign}`;
+          operand1 /= operand2;
+        }
+
+        operand1 = operand1.toLocaleString(undefined, { maximumFractionDigits: 15 });
+
+        valuePreview.textContent = operand1;
+
+        operand1 = parseFloat(operand1.replaceAll('.', '').replace(',', '.'));
       } 
+    }
+
+    if (cancel) {
+      if (operationPreview.textContent.includes(equalSign)) {
+        numbers = ['0'];
+        valuePreview.textContent = numbers[0];
+        operand1 = undefined;
+        operand2 = undefined;
+        operationPreview.textContent = '';
+      } else {
+        numbers = ['0'];
+        valuePreview.textContent = numbers[0];
+      }
     }
 
     if (clear) {
