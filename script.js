@@ -214,7 +214,7 @@ buttons.addEventListener('click', e => {
           operationPreview.textContent = '';
         }
 
-        operator = null; // isso faz com que o 'del' não trave.
+        operator = null; 
       }
 
       if (numericBtnValues[0] === '0' && !numericBtnValues.join('').includes(',')) {
