@@ -390,7 +390,7 @@ buttons.addEventListener('click', (e) => {
     let valueLength = valuePreview.textContent.split('');
     valueLength = valueLength.join('').replaceAll('.', '').replace(',', '').replace('-', '');
 
-    if (valuePreview.textContent.length > 19) {
+    if (valuePreview.textContent.length > 20) {
       valuePreview.style.justifyContent = 'center';
       valuePreview.style.fontSize = '1.4rem';
 
@@ -478,11 +478,76 @@ buttons.addEventListener('click', (e) => {
                 valuePreview.style.fontSize = '4rem';
                 break;
             }
-            
           }
   
-          if (valuePreview.textContent.slice(5, 6).includes('.')) {
-            valuePreview.style.fontSize = `${fontSize + 2}rem`;
+          if (valuePreview.textContent.slice(5, 8).includes('.')) {
+            switch (valueLength.length) {
+              case 10:
+                valuePreview.style.fontSize = `${fontSize - 0.02}rem`;
+                break;
+              case 11:
+                valuePreview.style.fontSize = `${fontSize}rem`;
+                break;
+              case 12:
+                valuePreview.style.fontSize = `${fontSize}rem`;
+                break;
+              case 13:
+                valuePreview.style.fontSize = `${fontSize + 0.1}rem`;
+                break;
+              case 14:
+                valuePreview.style.fontSize = `${fontSize + 0.09}rem`;
+                break;
+              case 15:
+                valuePreview.style.fontSize = `${fontSize + 0.08}rem`;
+                break;
+              default:
+                valuePreview.style.fontSize = '4rem';
+                break;
+            }
+          }
+
+          if (valuePreview.textContent.slice(9, 12).includes('.')) {
+            switch (valueLength.length) {
+              case 10:
+                valuePreview.style.fontSize = `${fontSize - 0.18}rem`;
+                break;
+              case 11:
+                valuePreview.style.fontSize = `${fontSize - 0.13}rem`;
+                break;
+              case 12:
+                valuePreview.style.fontSize = `${fontSize - 0.11}rem`;
+                break;
+              case 13:
+                valuePreview.style.fontSize = `${fontSize}rem`;
+                break;
+              case 14:
+                valuePreview.style.fontSize = `${fontSize}rem`;
+                break;
+              case 15:
+                valuePreview.style.fontSize = `${fontSize}rem`;
+                break;
+              default:
+                valuePreview.style.fontSize = '4rem';
+                break;
+            }
+          }
+
+          if (valuePreview.textContent.slice(13).includes('.')) {
+            console.log(valueLength.length)
+            switch (valueLength.length) {
+              case 13:
+                valuePreview.style.fontSize = `${fontSize - 0.1}rem`;
+                break;
+              case 14:
+                valuePreview.style.fontSize = `${fontSize - 0.09}rem`;
+                break;
+              case 15:
+                valuePreview.style.fontSize = `${fontSize - 0.08}rem`;
+                break;
+              default:
+                valuePreview.style.fontSize = '4rem';
+                break;
+            }
           }
         } else {
           switch (valueLength.length) {
@@ -507,9 +572,6 @@ buttons.addEventListener('click', (e) => {
           }
           
         }
-
-        console.log(valuePreview.style.fontSize)
-        console.log(valueLength.length)
       }
     }
   }
