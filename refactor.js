@@ -386,6 +386,132 @@ buttons.addEventListener('click', (e) => {
       operator = undefined;
       operationPreview.textContent = '';
     }
+
+    let valueLength = valuePreview.textContent.split('');
+    valueLength = valueLength.join('').replaceAll('.', '').replace(',', '').replace('-', '');
+
+    if (valuePreview.textContent.length > 19) {
+      valuePreview.style.justifyContent = 'center';
+      valuePreview.style.fontSize = '1.4rem';
+
+      numbers = ['0'];
+      operator = undefined;
+      operand1 = undefined;
+      operand2 = undefined;
+      equalSign = undefined;
+
+      operationPreview.textContent = '';
+      valuePreview.textContent = 'Ops! valor maior do que o permitido :/';
+    } else {
+      valuePreview.style.justifyContent = 'flex-end';
+
+      if (valuePreview.textContent.includes('-')) {
+        switch (valueLength.length) {
+          case 10:
+            valuePreview.style.fontSize = '3.79rem';
+            break;
+          case 11:
+            valuePreview.style.fontSize = '3.5rem';
+            break;
+          case 12:
+            valuePreview.style.fontSize = '3.25rem';
+            break;
+          case 13:
+            valuePreview.style.fontSize = '2.94rem';
+            break;
+          case 14:
+            valuePreview.style.fontSize = '2.76rem';
+            break;
+          case 15:
+            valuePreview.style.fontSize = '2.6rem';
+            break;
+          default:
+            valuePreview.style.fontSize = '4rem';
+            break;
+        }
+      } else {
+        switch (valueLength.length) {
+          case 11:
+            valuePreview.style.fontSize = '3.65rem';
+            break;
+          case 12:
+            valuePreview.style.fontSize = '3.38rem';
+            break;
+          case 13:
+            valuePreview.style.fontSize = '3.05rem';
+            break;
+          case 14:
+            valuePreview.style.fontSize = '2.86rem';
+            break;
+          case 15:
+            valuePreview.style.fontSize = '2.69rem';
+            break;
+          default:
+            valuePreview.style.fontSize = '4rem';
+            break;
+        }
+      }
+
+      if (valuePreview.textContent.includes(',')) {
+        let fontSize = parseFloat(valuePreview.style.fontSize.replace('rem', ''));
+
+
+        if (valuePreview.textContent.includes('.')) {
+          if (valuePreview.textContent.slice(1, 4).includes('.')) {
+            switch (valueLength.length) {
+              case 11:
+                valuePreview.style.fontSize = `${fontSize + 0.16}rem`;
+                break;
+              case 12:
+                valuePreview.style.fontSize = `${fontSize + 0.13}rem`;
+                break;
+              case 13:
+                valuePreview.style.fontSize = `${fontSize + 0.21}rem`;
+                break;
+              case 14:
+                valuePreview.style.fontSize = `${fontSize + 0.18}rem`;
+                break;
+              case 15:
+                valuePreview.style.fontSize = `${fontSize + 0.16}rem`;
+                break;
+              default:
+                valuePreview.style.fontSize = '4rem';
+                break;
+            }
+            
+          }
+  
+          if (valuePreview.textContent.slice(5, 6).includes('.')) {
+            valuePreview.style.fontSize = `${fontSize + 2}rem`;
+          }
+        } else {
+          switch (valueLength.length) {
+            case 11:
+              valuePreview.style.fontSize = `${fontSize + 0.31}rem`;
+              break;
+            case 12:
+              valuePreview.style.fontSize = `${fontSize + 0.26}rem`;
+              break;
+            case 13:
+              valuePreview.style.fontSize = `${fontSize + 0.32}rem`;
+              break;
+            case 14:
+              valuePreview.style.fontSize = `${fontSize + 0.28}rem`;
+              break;
+            case 15:
+              valuePreview.style.fontSize = `${fontSize + 0.25}rem`;
+              break;
+            default:
+              valuePreview.style.fontSize = '4rem';
+              break;
+          }
+          
+        }
+
+        console.log(valuePreview.style.fontSize)
+        console.log(valueLength.length)
+      }
+    }
   }
 })
 
