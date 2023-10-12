@@ -317,7 +317,7 @@ buttons.addEventListener('click', (e) => {
 
       operationPreview.textContent = `${operand1} ${operator}`;
 
-      operand1 = operand1.toLocaleString(undefined, { maximumFractionDigits: 15 });
+      operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 14 }); 
 
       valuePreview.textContent = operand1;
 
@@ -325,6 +325,8 @@ buttons.addEventListener('click', (e) => {
 
       numbers = [];
     }
+
+    
 
     if (equals) {
       if (isNaN(operand2) && isNumber(operand1)) {
@@ -358,7 +360,7 @@ buttons.addEventListener('click', (e) => {
           operand1 /= operand2;
         }
 
-        operand1 = operand1.toLocaleString(undefined, { maximumFractionDigits: 15 });
+        operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 14 });
 
         valuePreview.textContent = operand1;
 
@@ -390,7 +392,7 @@ buttons.addEventListener('click', (e) => {
     let valueLength = valuePreview.textContent.split('');
     valueLength = valueLength.join('').replaceAll('.', '').replace(',', '').replace('-', '');
 
-    if (valuePreview.textContent.length > 20) {
+    if (valueLength.length > 15) {
       valuePreview.style.justifyContent = 'center';
       valuePreview.style.fontSize = '1.4rem';
 
@@ -454,7 +456,6 @@ buttons.addEventListener('click', (e) => {
 
       if (valuePreview.textContent.includes(',')) {
         let fontSize = parseFloat(valuePreview.style.fontSize.replace('rem', ''));
-
 
         if (valuePreview.textContent.includes('.')) {
           if (valuePreview.textContent.slice(1, 4).includes('.')) {
@@ -570,10 +571,11 @@ buttons.addEventListener('click', (e) => {
               valuePreview.style.fontSize = '4rem';
               break;
           }
-          
         }
       }
     }
+
+    console.log(valueLength.length)
   }
 })
 
