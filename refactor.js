@@ -196,7 +196,7 @@ buttons.addEventListener('click', (e) => {
   const hasComma = numbers.join('').includes(',');
   const hasMinusSign = numbers[0] && numbers[0].includes('-');
   
-  let lastNumber = numbers[numbers.length -1]; 
+  let lastNumber = numbers[numbers.length - 1]; 
 
   if (button) {
     const number = classList.contains('number');
@@ -317,7 +317,7 @@ buttons.addEventListener('click', (e) => {
 
       operationPreview.textContent = `${operand1} ${operator}`;
 
-      operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 14 }); 
+      operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 15 }); 
 
       valuePreview.textContent = operand1;
 
@@ -360,7 +360,7 @@ buttons.addEventListener('click', (e) => {
           operand1 /= operand2;
         }
 
-        operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 14 });
+        operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 15 });
 
         valuePreview.textContent = operand1;
 
@@ -387,6 +387,10 @@ buttons.addEventListener('click', (e) => {
       operand1 = undefined;
       operator = undefined;
       operationPreview.textContent = '';
+    }  
+
+    if (valuePreview.textContent.length > 15) {
+      valuePreview.textContent = valuePreview.textContent.replace(valuePreview.textContent[16], '');
     }
 
     let valueLength = valuePreview.textContent.split('');
@@ -574,8 +578,6 @@ buttons.addEventListener('click', (e) => {
         }
       }
     }
-
-    console.log(valueLength.length)
   }
 })
 
