@@ -186,17 +186,13 @@ function isNumber(value) {
 }
 
 buttons.addEventListener('click', (e) => {
-  const { 
-    localName, 
-    textContent,
-    classList
-  } = e.target;
+  const { localName, textContent, classList } = e.target;
 
   const button = localName.includes('button');
   const hasComma = numbers.join('').includes(',');
   const hasMinusSign = numbers[0] && numbers[0].includes('-');
-  
-  let lastNumber = numbers[numbers.length - 1]; 
+
+  let lastNumber = numbers[numbers.length - 1];
 
   if (button) {
     const number = classList.contains('number');
@@ -214,14 +210,14 @@ buttons.addEventListener('click', (e) => {
 
     if (number) {
       if (isNumber(operand2)) {
-        numbers = [ '0' ];
+        numbers = ['0'];
         operand2 = undefined;
         equalSign = undefined;
       }
 
       if (numbers[0] === '0') {
         numbers.shift();
-      } 
+      }
 
       if (numbers.length < 15) {
         numbers.push(textContent);
@@ -239,7 +235,10 @@ buttons.addEventListener('click', (e) => {
     }
 
     if (plusMinus) {
-      if (numbers[0] === undefined || operationPreview.textContent.includes(equalSign)) { 
+      if (
+        numbers[0] === undefined ||
+        operationPreview.textContent.includes(equalSign)
+      ) {
         return;
       }
 
@@ -271,62 +270,75 @@ buttons.addEventListener('click', (e) => {
     }
 
     value = numbers.join('');
-
     valuePreview.textContent = value;
-
     value = parseFloat(value.replaceAll('.', '').replace(',', '.'));
-    
+
     if (operators) {
       operand2 = undefined;
 
       if (isNaN(operand1)) {
         operand1 = value;
       }
-      
+
       if (plus) {
-        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+        if (
+          operator &&
+          isNumber(value) &&
+          !operationPreview.textContent.includes(equalSign)
+        ) {
           operand1 += value;
-        } 
-          
+        }
+
         operator = '+';
       }
 
       if (minus) {
-        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+        if (
+          operator &&
+          isNumber(value) &&
+          !operationPreview.textContent.includes(equalSign)
+        ) {
           operand1 -= value;
-        } 
-          
+        }
+
         operator = '-';
       }
 
       if (times) {
-        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+        if (
+          operator &&
+          isNumber(value) &&
+          !operationPreview.textContent.includes(equalSign)
+        ) {
           operand1 *= value;
-        } 
-          
+        }
+
         operator = '*';
       }
 
       if (divide) {
-        if (operator && isNumber(value) && !operationPreview.textContent.includes(equalSign)) {
+        if (
+          operator &&
+          isNumber(value) &&
+          !operationPreview.textContent.includes(equalSign)
+        ) {
           operand1 /= value;
         }
-          
+
         operator = `/`;
       }
 
-      operationPreview.textContent = `${operand1} ${operator}`;
-
-      operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 15 }); 
-
+      operand1 = new Intl.NumberFormat(undefined, { 
+        maximumSignificantDigits: 15,
+        roundingPriority: 'morePrecision'
+      }).format(operand1);
       valuePreview.textContent = operand1;
 
       operand1 = parseFloat(operand1.replaceAll('.', '').replace(',', '.'));
+      operationPreview.textContent = `${operand1} ${operator}`;
 
       numbers = [];
     }
-
-    
 
     if (equals) {
       if (isNaN(operand2) && isNumber(operand1)) {
@@ -360,12 +372,15 @@ buttons.addEventListener('click', (e) => {
           operand1 /= operand2;
         }
 
-        operand1 = operand1.toLocaleString(undefined, { maximumSignificantDigits: 15 });
+        operand1 = new Intl.NumberFormat(undefined, { 
+          maximumSignificantDigits: 15,
+          roundingPriority: 'morePrecision' 
+        }).format(operand1);
 
         valuePreview.textContent = operand1;
 
         operand1 = parseFloat(operand1.replaceAll('.', '').replace(',', '.'));
-      } 
+      }
     }
 
     if (cancel) {
@@ -387,14 +402,14 @@ buttons.addEventListener('click', (e) => {
       operand1 = undefined;
       operator = undefined;
       operationPreview.textContent = '';
-    }  
-
-    if (valuePreview.textContent.length > 15) {
-      valuePreview.textContent = valuePreview.textContent.replace(valuePreview.textContent[16], '');
     }
 
     let valueLength = valuePreview.textContent.split('');
-    valueLength = valueLength.join('').replaceAll('.', '').replace(',', '').replace('-', '');
+    valueLength = valueLength
+      .join('')
+      .replaceAll('.', '')
+      .replace(',', '')
+      .replace('-', '');
 
     if (valueLength.length > 15) {
       valuePreview.style.justifyContent = 'center';
@@ -459,7 +474,9 @@ buttons.addEventListener('click', (e) => {
       }
 
       if (valuePreview.textContent.includes(',')) {
-        let fontSize = parseFloat(valuePreview.style.fontSize.replace('rem', ''));
+        let fontSize = parseFloat(
+          valuePreview.style.fontSize.replace('rem', '')
+        );
 
         if (valuePreview.textContent.includes('.')) {
           if (valuePreview.textContent.slice(1, 4).includes('.')) {
@@ -484,7 +501,7 @@ buttons.addEventListener('click', (e) => {
                 break;
             }
           }
-  
+
           if (valuePreview.textContent.slice(5, 8).includes('.')) {
             switch (valueLength.length) {
               case 10:
@@ -538,7 +555,7 @@ buttons.addEventListener('click', (e) => {
           }
 
           if (valuePreview.textContent.slice(13).includes('.')) {
-            console.log(valueLength.length)
+            console.log(valueLength.length);
             switch (valueLength.length) {
               case 13:
                 valuePreview.style.fontSize = `${fontSize - 0.1}rem`;
@@ -579,9 +596,4 @@ buttons.addEventListener('click', (e) => {
       }
     }
   }
-})
-
-
-
-
-
+});
