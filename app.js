@@ -213,6 +213,8 @@ buttons.addEventListener('click', (e) => {
         numbers = ['0'];
         operand2 = undefined;
         equalSign = undefined;
+
+        operationPreview.textContent = `${operand1} ${operator} ${value} =`;
       }
 
       if (numbers[0] === '0') {
@@ -400,6 +402,7 @@ buttons.addEventListener('click', (e) => {
       numbers = ['0'];
       valuePreview.textContent = numbers[0];
       operand1 = undefined;
+      operand2 = undefined;
       operator = undefined;
       operationPreview.textContent = '';
     }
