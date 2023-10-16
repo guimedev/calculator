@@ -214,7 +214,7 @@ buttons.addEventListener('click', (e) => {
         operand2 = undefined;
         equalSign = undefined;
 
-        operationPreview.textContent = `${operand1} ${operator} ${value} =`;
+        operationPreview.textContent = `${operand1} ${operator} ? =`;
       }
 
       if (numbers[0] === '0') {
