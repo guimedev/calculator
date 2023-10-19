@@ -16,7 +16,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 30rem;
+  width: 32rem;
   border: .2rem solid #405060;
   padding: .8rem;
   background-color: #e0e8ef;
@@ -45,12 +45,12 @@
 }
 
 .value-preview {
-  font-size: 4rem;
+  font-size: 4.5rem;
 }
 
 .buttons {
   display: grid;
-  grid-template-rows: repeat(5, 6.4rem);
+  grid-template-rows: repeat(5, 6.9rem);
   grid-template-columns: repeat(4, 1fr);
   gap: .8rem;
 }
@@ -105,3 +105,4 @@ button.clear,
 button.cancel {
   font-size: 1.6rem;
 }
+
